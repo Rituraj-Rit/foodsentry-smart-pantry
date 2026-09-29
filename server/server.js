@@ -13,7 +13,7 @@ import { errorHandler, notFound } from './middleware/errorHandler.js';
 import { initializeExpiryReminderJob } from './jobs/expiryReminderJob.js';
 
 const app = express();
-const port = Number(process.env.PORT) || 5000;
+const PORT = process.env.PORT || 5000;
 
 app.disable('x-powered-by');
 app.use(helmet());
@@ -23,6 +23,8 @@ app.use('/api', rateLimit({ windowMs: 15 * 60 * 1000, limit: 300, standardHeader
 app.use('/api/auth', rateLimit({ windowMs: 15 * 60 * 1000, limit: 30, standardHeaders: 'draft-8', legacyHeaders: false }));
 
 app.get('/api/health', (req, res) => res.json({ success: true, data: { status: 'ok' } }));
+app.get('/health', (req, res) => res.json({ status: 'ok', message: 'FoodSentry API is healthy' }));
+app.get('/', (req, res) => res.json({ success: true, message: 'FoodSentry API is running' }));
 app.use('/api/auth', authRoutes);
 app.use('/api/pantry', pantryRoutes);
 app.use('/api/recipes', recipeRoutes);
@@ -33,7 +35,7 @@ app.use(errorHandler);
 
 connectDatabase().then(() => {
   initializeExpiryReminderJob();
-  app.listen(port, () => process.stdout.write(`FoodSentry API listening on port ${port}\n`));
+  app.listen(PORT, '0.0.0.0', () => console.log(`FoodSentry server running on port ${PORT}`));
 }).catch((error) => {
   process.stderr.write(`Database connection failed: ${error.message}\n`);
   process.exitCode = 1;
