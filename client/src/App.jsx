@@ -5,6 +5,7 @@ import { MotionConfig } from 'motion/react';
 import 'react-toastify/dist/ReactToastify.css';
 import AppShell from './layouts/AppShell';
 import ProtectedRoute from './components/ProtectedRoute';
+import EmailConsentPrompt from './components/EmailConsentPrompt';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 
@@ -32,7 +33,7 @@ function AppContent() {
       <Route path="/profile" element={<Profile />} />
     </Route></Route>
     <Route path="*" element={<Navigate to="/" replace />} />
-  </Routes></Suspense><ToastContainer position="bottom-right" autoClose={4500} newestOnTop closeOnClick theme={theme} /></AuthProvider></BrowserRouter></MotionConfig>;
+  </Routes></Suspense><EmailConsentPrompt /><ToastContainer position="bottom-right" autoClose={4500} newestOnTop closeOnClick theme={theme} /></AuthProvider></BrowserRouter></MotionConfig>;
 }
 
 export default function App() {

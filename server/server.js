@@ -8,7 +8,9 @@ import authRoutes from './routes/authRoutes.js';
 import pantryRoutes from './routes/pantryRoutes.js';
 import recipeRoutes from './routes/recipeRoutes.js';
 import aiRoutes from './routes/aiRoutes.js';
+import notificationRoutes from './routes/notificationRoutes.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
+import { initializeExpiryReminderJob } from './jobs/expiryReminderJob.js';
 
 const app = express();
 const port = Number(process.env.PORT) || 5000;
@@ -25,10 +27,12 @@ app.use('/api/auth', authRoutes);
 app.use('/api/pantry', pantryRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/notifications', notificationRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
 connectDatabase().then(() => {
+  initializeExpiryReminderJob();
   app.listen(port, () => process.stdout.write(`FoodSentry API listening on port ${port}\n`));
 }).catch((error) => {
   process.stderr.write(`Database connection failed: ${error.message}\n`);
