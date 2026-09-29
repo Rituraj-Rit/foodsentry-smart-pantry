@@ -131,7 +131,7 @@ Never put a normal Gmail password in `.env`, source code, API responses, or clie
 
 ## API documentation
 
-All routes are prefixed with `/api`. Protected routes require `Authorization: Bearer <token>`.
+The frontend's primary API paths are rooted at `/` (for example, `/auth/register` and `/pantry`). Matching `/api/*` aliases are retained for local development and existing clients. Protected routes require `Authorization: Bearer <token>`.
 
 | Method | Endpoint | Access | Purpose |
 | --- | --- | --- | --- |
