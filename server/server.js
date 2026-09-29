@@ -14,10 +14,11 @@ import { initializeExpiryReminderJob } from './jobs/expiryReminderJob.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const clientOrigin = new URL(process.env.CLIENT_URL || 'http://localhost:5173').origin;
 
 app.disable('x-powered-by');
 app.use(helmet());
-app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173' }));
+app.use(cors({ origin: clientOrigin }));
 app.use(express.json({ limit: '32kb' }));
 app.use('/api', rateLimit({ windowMs: 15 * 60 * 1000, limit: 300, standardHeaders: 'draft-8', legacyHeaders: false }));
 app.use('/api/auth', rateLimit({ windowMs: 15 * 60 * 1000, limit: 30, standardHeaders: 'draft-8', legacyHeaders: false }));
