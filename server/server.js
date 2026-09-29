@@ -22,11 +22,13 @@ app.use(cors({ origin: clientOrigin }));
 app.use(express.json({ limit: '32kb' }));
 app.use('/api', rateLimit({ windowMs: 15 * 60 * 1000, limit: 300, standardHeaders: 'draft-8', legacyHeaders: false }));
 app.use('/api/auth', rateLimit({ windowMs: 15 * 60 * 1000, limit: 30, standardHeaders: 'draft-8', legacyHeaders: false }));
+app.use('/auth', rateLimit({ windowMs: 15 * 60 * 1000, limit: 30, standardHeaders: 'draft-8', legacyHeaders: false }));
 
 app.get('/api/health', (req, res) => res.json({ success: true, data: { status: 'ok' } }));
 app.get('/health', (req, res) => res.json({ status: 'ok', message: 'FoodSentry API is healthy' }));
 app.get('/', (req, res) => res.json({ success: true, message: 'FoodSentry API is running' }));
 app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
 app.use('/api/pantry', pantryRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/ai', aiRoutes);
