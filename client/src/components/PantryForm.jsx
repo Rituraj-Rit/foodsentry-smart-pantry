@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { motion } from 'motion/react';
 import { X } from 'lucide-react';
 import Button from './Button';
 
@@ -17,7 +18,7 @@ export default function PantryForm({ item, onClose, onSave, saving }) {
     event.preventDefault();
     onSave({ ...values, quantity: Number(values.quantity) });
   }
-  return <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}><section className="form-modal" role="dialog" aria-modal="true" aria-labelledby="pantry-modal-title">
+  return <motion.div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.16 }}><motion.section className="form-modal" role="dialog" aria-modal="true" aria-labelledby="pantry-modal-title" initial={{ opacity: 0, y: 10, scale: 0.99 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 6, scale: 0.99 }} transition={{ duration: 0.18 }}>
     <div className="modal-heading"><div><span className="eyebrow">YOUR KITCHEN, IN SYNC</span><h2 id="pantry-modal-title">{item ? 'Edit ingredient' : 'Add to pantry'}</h2></div><button className="icon-button" aria-label="Close" onClick={onClose}><X size={20} /></button></div>
     <form className="pantry-form" onSubmit={submit}>
       <label className="field field-wide">Ingredient name<input name="name" value={values.name} onChange={update} required maxLength="100" placeholder="e.g. Cherry tomatoes" autoFocus /></label>
@@ -28,5 +29,5 @@ export default function PantryForm({ item, onClose, onSave, saving }) {
       <label className="field field-wide">Notes <span className="optional-label">Optional</span><textarea name="notes" value={values.notes} onChange={update} maxLength="500" rows="3" placeholder="Storage details, opened date, or anything useful" /></label>
       <div className="modal-actions"><Button variant="secondary" onClick={onClose}>Cancel</Button><Button type="submit" disabled={saving}>{saving ? 'Saving…' : item ? 'Save changes' : 'Add ingredient'}</Button></div>
     </form>
-  </section></div>;
+  </motion.section></motion.div>;
 }

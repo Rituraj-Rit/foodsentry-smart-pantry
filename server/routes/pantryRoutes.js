@@ -26,7 +26,7 @@ const createFields = [
   body('notes').optional().isString().isLength({ max: 500 }).withMessage('Notes cannot exceed 500 characters.'),
 ];
 router.use(requireAuth);
-router.get('/', [query('search').optional().isString().isLength({ max: 100 }), query('sort').optional().isIn(['expiry', 'name', 'recent']), query('status').optional().isIn(['ALL', 'EXPIRED', 'EXPIRING_SOON', 'EXPIRING_THIS_WEEK', 'FRESH'])], validate, asyncHandler(listPantry));
+router.get('/', [query('search').optional().isString().isLength({ max: 100 }), query('sort').optional().isIn(['expiry', 'name', 'recent']), query('status').optional().isIn(['ALL', 'EXPIRED', 'EXPIRING_SOON', 'EXPIRING_THIS_WEEK', 'FRESH']), query('category').optional().isIn(['ALL', ...CATEGORIES])], validate, asyncHandler(listPantry));
 router.post('/', createFields, validate, asyncHandler(createPantryItem));
 router.get('/:id', [param('id').isMongoId()], validate, asyncHandler(getPantryItem));
 router.put('/:id', [param('id').isMongoId(), ...itemFields], validate, asyncHandler(updatePantryItem));

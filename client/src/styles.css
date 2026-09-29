@@ -152,15 +152,9 @@ img { max-width: 100%; display: block; }
 .app-frame { min-height: 100vh; display: flex; flex-direction: column; }
 .topbar { position: sticky; z-index: 20; top: 0; height: 69px; border-bottom: 1px solid #e5e9e1; background: rgba(255,255,255,.96); backdrop-filter: blur(14px); }
 .topbar-inner { max-width: 1280px; height: 100%; margin: 0 auto; padding: 0 35px; display: flex; align-items: center; }
-.topbar .brand { margin-right: 53px; }
-.main-nav { height: 100%; display: flex; align-items: center; gap: 30px; }
-.nav-link { position: relative; height: 100%; display: flex; align-items: center; color: #778078; font-size: 12px; font-weight: 600; }
-.nav-link:hover, .nav-link.active { color: var(--green-dark); }
-.nav-link.active::after { position: absolute; content: ''; bottom: -1px; left: 0; right: 0; height: 2px; background: #698663; }
+.topbar .brand { margin-right: 0; }
 .topbar-actions { display: flex; align-items: center; gap: 14px; margin-left: auto; }
 .nav-divider { width: 1px; height: 25px; margin-right: 3px; background: #e5e9e1; }
-.alert-button { position: relative; }
-.alert-button > span { position: absolute; top: 7px; right: 7px; width: 6px; height: 6px; border: 1px solid white; border-radius: 50%; background: var(--tomato); }
 .account-wrap, .item-menu-wrap { position: relative; }
 .account-button { display: flex; align-items: center; gap: 9px; padding: 4px; border: 0; background: transparent; cursor: pointer; }
 .avatar { width: 31px; height: 31px; display: grid; place-items: center; border-radius: 50%; color: #36563b; background: #e6eee1; font-size: 12px; font-weight: 700; }
@@ -170,7 +164,19 @@ img { max-width: 100%; display: block; }
 .account-menu a, .account-menu button, .item-menu button { width: 100%; min-height: 35px; padding: 7px 9px; display: flex; align-items: center; gap: 8px; border: 0; border-radius: 3px; background: transparent; color: #536056; text-align: left; font-size: 12px; cursor: pointer; }
 .account-menu a:hover, .account-menu button:hover, .item-menu button:hover { background: #f2f5f0; }
 .mobile-menu { display: none; }
-.app-main { flex: 1; }
+.app-body { min-height: calc(100vh - 69px); display: flex; flex: 1; }
+.app-sidebar { position: sticky; top: 69px; width: 218px; height: calc(100vh - 69px); flex: 0 0 218px; padding: 27px 14px 18px; display: flex; flex-direction: column; border-right: 1px solid var(--line); background: white; }
+.sidebar-section-label { margin: 0 11px 12px; color: #9aa297; font-size: 9px; font-weight: 700; letter-spacing: 1.1px; }
+.sidebar-nav { display: grid; gap: 4px; }
+.sidebar-link { min-height: 42px; padding: 0 11px; display: flex; align-items: center; gap: 10px; border-radius: 4px; color: #768076; font-size: 12px; font-weight: 600; transition: color .16s ease, background .16s ease, transform .16s ease; }
+.sidebar-link:hover { transform: translateX(2px); color: var(--green-dark); background: #f1f5ef; }
+.sidebar-link.active { color: #345b3e; background: #eaf1e8; }
+.sidebar-note { margin-top: auto; padding: 13px 12px; display: grid; gap: 6px; border: 1px solid #e5eadf; border-radius: 5px; background: #f5f7f1; }
+.sidebar-note-mark { color: #698261; }
+.sidebar-note strong { color: #536451; font-size: 10px; }
+.sidebar-note small { color: #899187; font-size: 9px; line-height: 1.5; }
+.app-content { min-width: 0; flex: 1; display: flex; flex-direction: column; }
+.app-main { width: 100%; flex: 1; }
 .page-container { width: min(100% - 64px, 1170px); margin: 0 auto; padding: 47px 0 70px; }
 .app-footer { min-height: 54px; padding: 14px max(32px, calc((100% - 1170px) / 2)); display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e6e9e3; color: #8b938a; font-size: 10px; }
 .app-footer span:first-child { color: #52664f; font-family: var(--display); font-weight: 800; }
@@ -423,8 +429,7 @@ img { max-width: 100%; display: block; }
   .hero-copy h1 { font-size: 51px; }
   .hero-visual { height: 375px; }
   .topbar-inner { padding: 0 24px; }
-  .topbar .brand { margin-right: 30px; }
-  .main-nav { gap: 20px; }
+  .app-sidebar { width: 190px; flex-basis: 190px; }
   .page-container { width: min(100% - 48px, 1170px); }
   .dashboard-quick { grid-template-columns: 1fr; gap: 17px; }
   .quick-actions { grid-template-columns: repeat(3, 1fr); }
@@ -473,14 +478,10 @@ img { max-width: 100%; display: block; }
   .topbar-inner { padding: 0 16px; }
   .topbar .brand { margin-right: 0; font-size: 17px; }
   .mobile-menu { display: inline-grid; width: 37px; height: 37px; margin-left: 10px; }
-  .main-nav { position: absolute; top: 61px; left: 0; right: 0; height: auto; padding: 8px 16px 12px; display: none; flex-direction: column; align-items: stretch; gap: 0; border-bottom: 1px solid var(--line); background: white; box-shadow: 0 8px 16px rgba(37, 55, 47, .07); }
-  .main-nav.nav-open { display: flex; }
-  .nav-link { min-height: 41px; }
-  .nav-link.active::after { right: auto; width: 28px; }
   .topbar-actions { gap: 7px; }
   .nav-divider, .account-name, .account-button > svg { display: none; }
   .account-button { padding: 2px; }
-  .alert-button { display: none; }
+  .app-sidebar { display: none; }
   .page-container { width: calc(100% - 36px); padding: 32px 0 48px; }
   .page-heading-row, .welcome-row { align-items: flex-start; margin-bottom: 22px; }
   .page-heading-row h1, .welcome-row h1 { font-size: 27px; }
@@ -556,4 +557,180 @@ img { max-width: 100%; display: block; }
   .recipe-card-content h3 { min-height: auto; }
   .profile-panel { padding: 16px; }
   .nutrition-row > div { grid-template-columns: 1fr 1fr; }
+}
+
+html[data-theme='dark'] {
+  color-scheme: dark;
+  --ink: #e3ece4;
+  --muted: #a6b2a7;
+  --line: #35443a;
+  --paper: #202b24;
+  --canvas: #151d18;
+  --green: #79a982;
+  --green-dark: #dcebdd;
+  --green-pale: #2b3b2f;
+  --tomato-pale: #432d27;
+  --gold-pale: #40391f;
+  --blue-pale: #29383c;
+}
+
+html[data-theme='dark'] body,
+html[data-theme='dark'] .landing-page,
+html[data-theme='dark'] .auth-panel,
+html[data-theme='dark'] .app-frame { color: var(--ink); background: var(--canvas); }
+html[data-theme='dark'] .landing-nav,
+html[data-theme='dark'] .landing-footer,
+html[data-theme='dark'] .topbar,
+html[data-theme='dark'] .account-menu,
+html[data-theme='dark'] .item-menu,
+html[data-theme='dark'] .form-modal,
+html[data-theme='dark'] .stat-card,
+html[data-theme='dark'] .pantry-card,
+html[data-theme='dark'] .recipe-card,
+html[data-theme='dark'] .recipe-search-panel,
+html[data-theme='dark'] .ingredients-panel,
+html[data-theme='dark'] .profile-panel,
+html[data-theme='dark'] .quick-action,
+html[data-theme='dark'] .search-box,
+html[data-theme='dark'] .sort-select { color: var(--ink); border-color: var(--line); background: var(--paper); }
+html[data-theme='dark'] .landing-features { border-color: var(--line); }
+html[data-theme='dark'] .feature-grid { border-color: var(--line); }
+html[data-theme='dark'] .feature-item { border-color: var(--line); }
+html[data-theme='dark'] .how-section { background: #202c24; }
+html[data-theme='dark'] .how-steps li { border-color: #3c4b40; }
+html[data-theme='dark'] .dashboard-quick { background: #243328; }
+html[data-theme='dark'] .use-expiring-row { border-color: #51452a; background: #302c20; }
+html[data-theme='dark'] .mobile-nav-panel,
+html[data-theme='dark'] .app-sidebar { border-color: var(--line); background: var(--paper); }
+html[data-theme='dark'] .sidebar-link { color: #a6b4a7; }
+html[data-theme='dark'] .sidebar-link:hover { background: #293a2d; color: #e0ecdf; }
+html[data-theme='dark'] .sidebar-link.active { background: #2b3d30; color: #dcebdd; }
+html[data-theme='dark'] .sidebar-note { border-color: var(--line); background: #253329; }
+html[data-theme='dark'] .sidebar-note strong { color: #d0dfd0; }
+html[data-theme='dark'] .sidebar-note small { color: #a2b0a2; }
+html[data-theme='dark'] .landing-cta { background: #203e2d; }
+html[data-theme='dark'] .hero-note { border-color: #39483d; background: #202b24; }
+html[data-theme='dark'] .button-secondary,
+html[data-theme='dark'] .field input,
+html[data-theme='dark'] .field select,
+html[data-theme='dark'] .field textarea,
+html[data-theme='dark'] .search-box input,
+html[data-theme='dark'] .ingredient-search input,
+html[data-theme='dark'] .add-custom-row input,
+html[data-theme='dark'] .quantity-row select { color: var(--ink); border-color: var(--line); background: #1b261f; }
+html[data-theme='dark'] .ingredient-search,
+html[data-theme='dark'] .add-custom-row { border-color: var(--line); background: #1b261f; }
+html[data-theme='dark'] .field input::placeholder,
+html[data-theme='dark'] .field textarea::placeholder,
+html[data-theme='dark'] .search-box input::placeholder,
+html[data-theme='dark'] .ingredient-search input::placeholder,
+html[data-theme='dark'] .add-custom-row input::placeholder { color: #849187; }
+html[data-theme='dark'] .button-secondary:hover:not(:disabled) { border-color: #5b7561; background: #29382e; }
+html[data-theme='dark'] .quick-action:hover { background: #29382e; }
+html[data-theme='dark'] .account-menu a,
+html[data-theme='dark'] .account-menu button,
+html[data-theme='dark'] .item-menu button { color: var(--ink); }
+html[data-theme='dark'] .account-menu a:hover,
+html[data-theme='dark'] .account-menu button:hover,
+html[data-theme='dark'] .item-menu button:hover,
+html[data-theme='dark'] .icon-button:hover { background: #2b3a30; }
+html[data-theme='dark'] .brand { color: var(--green-dark); }
+html[data-theme='dark'] .mobile-nav-link,
+html[data-theme='dark'] .landing-nav nav a,
+html[data-theme='dark'] .text-link,
+html[data-theme='dark'] .back-link,
+html[data-theme='dark'] .page-heading-row p,
+html[data-theme='dark'] .welcome-row p,
+html[data-theme='dark'] .hero-copy > p,
+html[data-theme='dark'] .section-intro p,
+html[data-theme='dark'] .how-heading p,
+html[data-theme='dark'] .feature-item p,
+html[data-theme='dark'] .how-steps p,
+html[data-theme='dark'] .app-footer,
+html[data-theme='dark'] .landing-footer > span,
+html[data-theme='dark'] .hero-proof,
+html[data-theme='dark'] .hero-image-caption,
+html[data-theme='dark'] .stat-card p,
+html[data-theme='dark'] .stat-card small,
+html[data-theme='dark'] .pantry-card-title > span,
+html[data-theme='dark'] .item-expiry,
+html[data-theme='dark'] .recipe-ingredients,
+html[data-theme='dark'] .detail-summary,
+html[data-theme='dark'] .auth-subtitle,
+html[data-theme='dark'] .profile-panel-title p,
+html[data-theme='dark'] .profile-info > div span,
+html[data-theme='dark'] .ai-empty > p,
+html[data-theme='dark'] .ai-loading > p { color: var(--muted); }
+html[data-theme='dark'] .page-heading-row h1,
+html[data-theme='dark'] .welcome-row h1,
+html[data-theme='dark'] .hero-copy h1,
+html[data-theme='dark'] .section-intro h2,
+html[data-theme='dark'] .how-heading h2,
+html[data-theme='dark'] .quick-copy h2,
+html[data-theme='dark'] .section-heading h2,
+html[data-theme='dark'] .recipe-detail-main h1,
+html[data-theme='dark'] .instructions h2,
+html[data-theme='dark'] .ingredients-panel h2,
+html[data-theme='dark'] .auth-form-wrap h2,
+html[data-theme='dark'] .ai-empty h2,
+html[data-theme='dark'] .ai-loading h2,
+html[data-theme='dark'] .generated-recipe h2 { color: var(--green-dark); }
+html[data-theme='dark'] .stat-card strong,
+html[data-theme='dark'] .pantry-card-title h3,
+html[data-theme='dark'] .recipe-card-content h3,
+html[data-theme='dark'] .profile-panel-title h2,
+html[data-theme='dark'] .profile-info > div strong,
+html[data-theme='dark'] .quick-action strong { color: #dbe8dc; }
+html[data-theme='dark'] .recent-row,
+html[data-theme='dark'] .instruction-step,
+html[data-theme='dark'] .ingredients-panel li,
+html[data-theme='dark'] .generated-ingredients li,
+html[data-theme='dark'] .generated-steps li { border-color: var(--line); color: #c0cdc1; }
+html[data-theme='dark'] .ai-controls,
+html[data-theme='dark'] .ai-result { border-color: var(--line); background: var(--paper); }
+html[data-theme='dark'] .ai-section-title h2,
+html[data-theme='dark'] .generated-recipe section h3 { color: #dbe8dc; }
+html[data-theme='dark'] .ingredient-choice { border-color: var(--line); }
+html[data-theme='dark'] .choice-name,
+html[data-theme='dark'] .detail-meta,
+html[data-theme='dark'] .generated-description { color: #bfccbf; }
+html[data-theme='dark'] .generated-meta,
+html[data-theme='dark'] .profile-security { border-color: var(--line); }
+html[data-theme='dark'] .nutrition-row > div span { border-color: var(--line); background: #26332a; }
+html[data-theme='dark'] .status-fresh { color: #a9d2a4; background: #2a3d2d; }
+html[data-theme='dark'] .status-expiring_soon,
+html[data-theme='dark'] .status-expired { color: #e4a18e; background: #472f29; }
+html[data-theme='dark'] .status-expiring_this_week { color: #dfc27b; background: #40381f; }
+html[data-theme='dark'] .inline-error { border-color: #583b33; background: #32251f; color: #e6a28f; }
+html[data-theme='dark'] .form-error { color: #eda795; }
+html[data-theme='dark'] .filter-tab { color: #a3b0a4; }
+html[data-theme='dark'] .filter-tab.selected { color: #dcebdd; }
+html[data-theme='dark'] .filter-tabs { border-color: var(--line); }
+html[data-theme='dark'] .profile-security,
+html[data-theme='dark'] .ai-safety-note { color: #c4b68d; }
+
+.auth-top-actions { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+.theme-toggle { flex: 0 0 36px; color: #657466; }
+.stat-enter { min-width: 0; }
+.stat-enter .stat-card { height: 100%; }
+.route-transition { min-height: 100%; }
+.mobile-nav-panel { display: none; }
+.mobile-nav-link { min-height: 41px; display: flex; align-items: center; border-bottom: 1px solid var(--line); color: #778078; font-size: 12px; font-weight: 600; }
+.mobile-nav-link:last-child { border-bottom: 0; }
+.mobile-nav-link.active { color: var(--green-dark); }
+.category-filter select { max-width: 140px; }
+
+@media (max-width: 720px) {
+  .app-body { min-height: calc(100vh - 62px); }
+  .mobile-nav-panel { position: absolute; top: 61px; left: 0; right: 0; z-index: 25; padding: 6px 17px 11px; display: flex; flex-direction: column; overflow: hidden; border-bottom: 1px solid var(--line); background: white; box-shadow: 0 8px 16px rgba(37, 55, 47, .07); }
+  .pantry-toolbar { flex-wrap: wrap; }
+  .pantry-toolbar .search-box { flex: 1 0 100%; width: 100%; }
+  .pantry-toolbar .sort-select { flex: 1; min-width: 0; }
+  .category-filter select { max-width: 115px; }
+  .landing-nav-actions { gap: 10px; }
+  .auth-top-actions .theme-toggle { width: 36px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }

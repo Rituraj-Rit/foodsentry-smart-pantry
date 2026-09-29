@@ -10,15 +10,15 @@ FoodSentry is a pantry tracker that helps you use ingredients before they expire
 - Ingredient-based Spoonacular recipe search and recipe details.
 - Gemini-generated recipes with diet, cuisine, and serving preferences.
 - Expired ingredients are marked clearly and blocked from AI recipe generation.
-- Responsive React application with protected routes and accessible forms.
+- Responsive React application with protected routes, accessible forms, persistent light/dark themes, and reduced-motion-aware transitions.
 
 ## Tech stack
 
-React 19, Vite, React Router, Axios, React Toastify, Lucide; Node.js, Express 5, Mongoose, MongoDB, JWT, bcryptjs; Spoonacular and Google Gemini server-side REST APIs.
+React 19, Vite, React Router, Axios, React Toastify, Lucide, Motion; Node.js, Express 5, Mongoose, MongoDB, JWT, bcryptjs; Spoonacular and Google Gemini server-side REST APIs.
 
 ## Architecture
 
-The repository is a small npm monorepo. The Express API owns authentication, authorization, persistence, validation, expiry classification, and external API calls. The React app communicates only with the FoodSentry API. API responses use `{ "success": true, "data": ... }` and `{ "success": false, "message": ... }` envelopes.
+The repository is a small npm monorepo. The Express API owns authentication, authorization, persistence, validation, expiry classification, and external API calls. The React app communicates only with the FoodSentry API. API responses use `{ "success": true, "data": ... }` and `{ "success": false, "message": ... }` envelopes. Auth uses a bearer JWT persisted in browser `localStorage` for login persistence; use HTTPS, a restrictive CSP, and keep dependencies patched. A future deployment with higher XSS risk can migrate to short-lived access tokens plus HttpOnly/SameSite cookies and CSRF protection.
 
 ## Requirements
 
@@ -37,6 +37,8 @@ npm run install:all
 
 Create `server/.env` by copying `server/.env.example`, then set the variables described below. Start MongoDB locally or use MongoDB Atlas.
 
+Optionally copy `client/.env.example` to `client/.env` and set `VITE_API_URL` if the API is not at its local default. Client variables are public build-time configuration only; never place API keys or other credentials in `VITE_*` variables.
+
 ## Environment variables
 
 | Variable | Required | Description |
@@ -51,7 +53,7 @@ Create `server/.env` by copying `server/.env.example`, then set the variables de
 | `CLIENT_URL` | No | Allowed browser origin, defaults to `http://localhost:5173`. |
 | `VITE_API_URL` | No | Client API base URL, defaults to `http://localhost:5000/api`. This is a public URL, never a secret. |
 
-Never add real API keys to the client, commit `.env` files, or use a `VITE_` variable for a secret. The provided `.gitignore` excludes local environment files.
+Never add real API keys to the client, commit `.env` files, or use a `VITE_` variable for a secret. The provided `.gitignore` excludes local environment files and keeps the `.env.example` templates trackable. Theme preference is saved in `localStorage`; first visit follows the OS color-scheme preference.
 
 ## Run locally
 
@@ -75,11 +77,21 @@ npm run dev
 
 The client is served at `http://localhost:5173`; the API is at `http://localhost:5000`. Verify the API with `GET /api/health`.
 
+Run only one application from the repository root when needed:
+
+```sh
+npm --prefix client run dev
+npm --prefix server run dev
+```
+
 For a production client build:
 
 ```sh
 npm run build
+npm test
 ```
+
+`npm test` runs the server's native Node test suite. Run it directly with `npm --prefix server test`.
 
 Run the built client with `npm --prefix client run preview`. Start the API with `npm --prefix server start` after configuring production environment variables and a reachable MongoDB instance.
 
@@ -101,7 +113,7 @@ All routes are prefixed with `/api`. Protected routes require `Authorization: Be
 | `POST` | `/auth/register` | Public | `{ name, email, password }`; returns user and token. |
 | `POST` | `/auth/login` | Public | `{ email, password }`; returns user and token. |
 | `GET` | `/auth/me` | Protected | Current user profile. |
-| `GET` | `/pantry` | Protected | Lists pantry items; accepts `search`, `status`, `sort`. |
+| `GET` | `/pantry` | Protected | Lists pantry items; accepts `search`, `status`, `category`, and `sort`. |
 | `POST` | `/pantry` | Protected | Creates an ingredient. |
 | `GET` | `/pantry/:id` | Protected | Reads an owned ingredient only. |
 | `PUT` | `/pantry/:id` | Protected | Updates an owned ingredient only. |
@@ -136,6 +148,15 @@ server/                 Express API
 ## Screenshots
 
 Screenshots can be added here after running the application.
+
+## Deployment
+
+1. Provision MongoDB Atlas (or another reachable MongoDB deployment), then deploy `server/` to a Node.js host. Set `NODE_ENV=production`, `MONGODB_URI`, a unique high-entropy `JWT_SECRET`, the desired `JWT_EXPIRES_IN`, and provider keys in the host's secret manager. Do not upload `.env` files.
+2. Set `CLIENT_URL` to the exact deployed frontend origin. Configure the host to expose the Express port and terminate TLS at the platform or reverse proxy. The API exits on startup when MongoDB cannot connect, so configure health checks against `/api/health` after the database is available.
+3. Build `client/` with `VITE_API_URL` set to the deployed API's `/api` URL, then host the generated `client/dist/` as static assets. Configure SPA fallback/rewrite to `index.html` so direct route loads work.
+4. Configure provider quotas and billing/usage alerts. Test account creation, protected pantry CRUD, CORS, and both integrations against the deployed environment before inviting users.
+
+The included bearer-token persistence is suitable for this portfolio app but is exposed to browser JavaScript. For a higher-risk public deployment, prefer HttpOnly/SameSite cookies with CSRF defenses, add request monitoring and backups, and review the applicable privacy and food-safety requirements.
 
 ## Future improvements
 

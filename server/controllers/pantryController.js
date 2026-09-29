@@ -10,6 +10,7 @@ function withStatus(item) {
 export async function listPantry(req, res) {
   const query = { userId: req.user.id };
   if (req.query.search) query.name = { $regex: req.query.search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: 'i' };
+  if (req.query.category && req.query.category !== 'ALL') query.category = req.query.category;
   const sortOptions = {
     expiry: { expiryDate: 1 }, name: { name: 1 }, recent: { createdAt: -1 },
   };

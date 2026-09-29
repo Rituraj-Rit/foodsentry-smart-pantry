@@ -1,6 +1,7 @@
 import { ArrowDownRight, ArrowRight, BellRing, ChefHat, ClipboardList, Sparkles, Sprout } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Logo from '../components/Logo';
+import ThemeToggle from '../components/ThemeToggle';
 
 const featureItems = [
   { icon: ClipboardList, title: 'Know what you have', copy: 'A calm, clear view of what is in your fridge, pantry, and freezer.' },
@@ -11,7 +12,7 @@ const featureItems = [
 
 export default function Landing() {
   return <div className="landing-page">
-    <header className="landing-nav"><Logo /><nav><a href="#features">Why FoodSentry</a><a href="#how">How it works</a></nav><div className="landing-nav-actions"><Link className="text-link" to="/login">Log in</Link><Link className="button button-primary button-small" to="/register">Get started <ArrowRight size={16} /></Link></div></header>
+    <header className="landing-nav"><Logo /><nav><a href="#features">Why FoodSentry</a><a href="#how">How it works</a></nav><div className="landing-nav-actions"><Link className="text-link" to="/login">Log in</Link><Link className="button button-primary button-small" to="/register">Get started <ArrowRight size={16} /></Link><ThemeToggle /></div></header>
     <main>
       <section className="landing-hero">
         <div className="hero-copy"><span className="eyebrow"><span className="eyebrow-dot" /> THE THOUGHTFUL PANTRY</span><h1>Good food<br />deserves <em>to be used.</em></h1><p>See what you have. Know what needs using. Find something delicious to make before it gets forgotten.</p><div className="hero-actions"><Link className="button button-primary" to="/register">Start tracking <ArrowRight size={17} /></Link><a className="hero-secondary" href="#features">Explore FoodSentry <ArrowDownRight size={16} /></a></div><div className="hero-proof"><span className="proof-dot" /><span>A little more intention, a lot less waste.</span></div></div>
