@@ -8,12 +8,17 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let active = true;
+    const reset = () => setUser(null);
+    window.addEventListener('foodsentry:unauthorized', reset);
     const token = localStorage.getItem('foodsentry-token');
     if (!token) {
       setLoading(false);
-      return undefined;
+      return () => {
+        active = false;
+        window.removeEventListener('foodsentry:unauthorized', reset);
+      };
     }
-    let active = true;
     api.get('/auth/me').then(({ data }) => {
       if (active) setUser(data.data.user);
     }).catch(() => {
@@ -21,8 +26,6 @@ export function AuthProvider({ children }) {
     }).finally(() => {
       if (active) setLoading(false);
     });
-    const reset = () => setUser(null);
-    window.addEventListener('foodsentry:unauthorized', reset);
     return () => {
       active = false;
       window.removeEventListener('foodsentry:unauthorized', reset);
